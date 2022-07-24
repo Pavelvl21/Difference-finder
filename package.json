@@ -5,10 +5,11 @@
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Pavelvl21/frontend-project-lvl2.git"
@@ -20,6 +21,13 @@
   },
   "homepage": "https://github.com/Pavelvl21/frontend-project-lvl2#readme",
   "dependencies": {
-    "commander": "^9.3.0"
+    "commander": "^9.3.0",
+    "deps": "^1.0.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "eslint": "^8.20.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
   }
 }
