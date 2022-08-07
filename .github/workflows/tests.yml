@@ -13,6 +13,6 @@ jobs:
            env:
              CC_TEST_REPORTER_ID: ${{ secrets.TEST_REPORTER }}
            with:
-             coverageCommand: make test
+             coverageCommand: make test-coverage
              debug: true
          
