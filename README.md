@@ -7,6 +7,6 @@
 
 ### Asciinema
 
-Step3
+Step5
 ---
-[![asciicast](https://asciinema.org/a/I9wS7ONu87cD0DwusZ21hB4OU.svg)](https://asciinema.org/a/I9wS7ONu87cD0DwusZ21hB4OU)
+[![asciicast](https://asciinema.org/a/9ztk7A5KhcVdCCe9rtJnzpFza.svg)](https://asciinema.org/a/9ztk7A5KhcVdCCe9rtJnzpFza)
