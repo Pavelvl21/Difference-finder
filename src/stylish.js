@@ -5,7 +5,6 @@ const bracketIndent = (depth, spacesCount = 4, replacer = ' ') => replacer.repea
 
 const diffBuilder = (tree) => {
   const iter = (currentValue, depth) => {
-
     if (!_.isObject(currentValue)) {
       return (`${currentValue}`);
     }
@@ -22,15 +21,15 @@ const diffBuilder = (tree) => {
       addDiffMark,
       children,
       diffMark,
-      key,      
+      key,
       remDiffMark,
-      spaceMark,      
+      spaceMark,
       status,
       value,
       value1,
       value2,
     }) => {
-      switch(status) {
+      switch (status) {
         case 'added':
           return `${currentIndent(depth)}${diffMark}${key}: ${iter(value, depth + 1)}`;
         case 'changed':
@@ -39,14 +38,14 @@ const diffBuilder = (tree) => {
           return `${currentIndent(depth)}${diffMark}${key}: ${iter(value, depth + 1)}`;
         case 'nested':
           return `${currentIndent(depth)}${spaceMark}${key}: ${diffFormatter(children, depth + 1)}`;
-        case 'unchanged':
+        default:
           return `${currentIndent(depth)}${spaceMark}${key}: ${iter(value, depth + 1)}`;
       }
     }).join('\n');
-    
+
     return `{\n${lines}\n${bracketIndent(depth)}}`;
   };
-  
+
   return diffFormatter(tree);
 };
 
