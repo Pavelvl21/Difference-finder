@@ -9,7 +9,8 @@ const parseData = (filepath) => {
       return yaml.load(readFileSync(filepath, 'utf8'));
     case '.json':
       return JSON.parse(readFileSync(filepath, 'utf8'));
-    default: throw new Error('File format is not supported');
+    default:
+      throw new Error('The file format is not supported');
   }
 };
 

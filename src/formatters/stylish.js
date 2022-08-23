@@ -3,7 +3,7 @@ import _ from 'lodash';
 const currentIndent = (depth, spacesCount = 4, replacer = ' ') => replacer.repeat(depth * spacesCount - 2);
 const bracketIndent = (depth, spacesCount = 4, replacer = ' ') => replacer.repeat(depth * spacesCount - spacesCount);
 
-const diffBuilder = (tree) => {
+const stylishFormatter = (tree) => {
   const iter = (currentValue, depth) => {
     if (!_.isObject(currentValue)) {
       return (`${currentValue}`);
@@ -16,14 +16,10 @@ const diffBuilder = (tree) => {
     return `{\n${subLines}\n${bracketIndent(depth)}}`;
   };
 
-  const diffFormatter = (node, depth = 1) => {
+  const formatDiff = (node, depth = 1) => {
     const lines = node.map(({
-      addDiffMark,
       children,
-      diffMark,
       key,
-      remDiffMark,
-      spaceMark,
       status,
       value,
       value1,
@@ -31,22 +27,22 @@ const diffBuilder = (tree) => {
     }) => {
       switch (status) {
         case 'added':
-          return `${currentIndent(depth)}${diffMark}${key}: ${iter(value, depth + 1)}`;
+          return `${currentIndent(depth)}+ ${key}: ${iter(value, depth + 1)}`;
         case 'changed':
-          return `${currentIndent(depth)}${remDiffMark}${key}: ${iter(value1, depth + 1)}\n${currentIndent(depth)}${addDiffMark}${key}: ${iter(value2, depth + 1)}`;
+          return `${currentIndent(depth)}- ${key}: ${iter(value1, depth + 1)}\n${currentIndent(depth)}+ ${key}: ${iter(value2, depth + 1)}`;
         case 'deleted':
-          return `${currentIndent(depth)}${diffMark}${key}: ${iter(value, depth + 1)}`;
+          return `${currentIndent(depth)}- ${key}: ${iter(value, depth + 1)}`;
         case 'nested':
-          return `${currentIndent(depth)}${spaceMark}${key}: ${diffFormatter(children, depth + 1)}`;
+          return `${currentIndent(depth)}  ${key}: ${formatDiff(children, depth + 1)}`;
         default:
-          return `${currentIndent(depth)}${spaceMark}${key}: ${iter(value, depth + 1)}`;
+          return `${currentIndent(depth)}  ${key}: ${iter(value, depth + 1)}`;
       }
     }).join('\n');
 
     return `{\n${lines}\n${bracketIndent(depth)}}`;
   };
 
-  return diffFormatter(tree);
+  return formatDiff(tree);
 };
 
-export default diffBuilder;
+export default stylishFormatter;
