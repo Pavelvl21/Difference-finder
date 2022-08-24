@@ -26,7 +26,7 @@ const statusStyle = {
 const stylishFormatter = (tree) => {
   const formatDiff = (coll, depth = 1) => {
     const lines = coll
-      .flatMap(({ status }, i) => statusStyle[status](coll[i], depth, formatDiff))
+      .map(({ status }, i) => statusStyle[status](coll[i], depth, formatDiff))
       .join('\n');
     return `{\n${lines}\n${bracketIndent(depth)}}`;
   };
