@@ -1,16 +1,14 @@
-import { extname } from 'path';
 import yaml from 'js-yaml';
-import { readFileSync } from 'fs';
 
-const parseData = (filepath) => {
-  switch (extname(filepath)) {
+const parseData = (filepath, fileFormat) => {
+  switch (fileFormat) {
     case '.yaml':
     case '.yml':
-      return yaml.load(readFileSync(filepath, 'utf8'));
+      return yaml.load(filepath);
     case '.json':
-      return JSON.parse(readFileSync(filepath, 'utf8'));
+      return JSON.parse(filepath);
     default:
-      throw new Error('The file format is not supported');
+      throw new Error(`The file format '${fileFormat}' is not supported`);
   }
 };
 

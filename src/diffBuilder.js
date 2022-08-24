@@ -16,7 +16,7 @@ const diffBuilder = (tree1, tree2) => {
     if (_.has(tree1, key) && !_.has(tree2, key)) {
       return {
         key,
-        status: 'deleted',
+        status: 'removed',
         value: value1,
       };
     }
@@ -30,7 +30,7 @@ const diffBuilder = (tree1, tree2) => {
     if (value1 !== value2) {
       return {
         key,
-        status: 'changed',
+        status: 'updated',
         value1,
         value2,
       };
