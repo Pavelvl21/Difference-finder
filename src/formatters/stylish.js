@@ -3,7 +3,7 @@ import _ from 'lodash';
 const currentIndent = (depth, spacesCount = 4, replacer = ' ') => replacer.repeat(depth * spacesCount - 2);
 const bracketIndent = (depth, spacesCount = 4, replacer = ' ') => replacer.repeat(depth * spacesCount - spacesCount);
 
-const stylishFormatter = (tree) => {
+
   const iter = (currentValue, depth) => {
     if (!_.isObject(currentValue)) {
       return (`${currentValue}`);
@@ -16,30 +16,20 @@ const stylishFormatter = (tree) => {
     return `{\n${subLines}\n${bracketIndent(depth)}}`;
   };
 
-  const formatDiff = (node, depth = 1) => {
-    const lines = node.map(({
-      children,
-      key,
-      status,
-      value,
-      value1,
-      value2,
-    }) => {
-      switch (status) {
-        case 'added':
-          return `${currentIndent(depth)}+ ${key}: ${iter(value, depth + 1)}`;
-        case 'changed':
-          return `${currentIndent(depth)}- ${key}: ${iter(value1, depth + 1)}\n${currentIndent(depth)}+ ${key}: ${iter(value2, depth + 1)}`;
-        case 'deleted':
-          return `${currentIndent(depth)}- ${key}: ${iter(value, depth + 1)}`;
-        case 'nested':
-          return `${currentIndent(depth)}  ${key}: ${formatDiff(children, depth + 1)}`;
-        default:
-          return `${currentIndent(depth)}  ${key}: ${iter(value, depth + 1)}`;
-      }
-    }).join('\n');
+  const statusStyle = {
+    added: ({ key, value }, depth) => `${currentIndent(depth)}+ ${key}: ${iter(value, depth + 1)}`,
+    nested: ({ key, children }, depth, fn) => `${currentIndent(depth)}  ${key}: ${fn(children, depth + 1)}`,
+    removed: ( { key, value }, depth) => `${currentIndent(depth)}- ${key}: ${iter(value, depth + 1)}`,
+    unchanged: ( { key, value }, depth) => `${currentIndent(depth)}  ${key}: ${iter(value, depth + 1)}`,
+    updated: ({ key, value1, value2 }, depth) => `${currentIndent(depth)}- ${key}: ${iter(value1, depth + 1)}\n${currentIndent(depth)}+ ${key}: ${iter(value2, depth + 1)}`
+  };
 
-    return `{\n${lines}\n${bracketIndent(depth)}}`;
+  const stylishFormatter = (tree) => {
+    const formatDiff = (coll, depth = 1) => {
+      const lines = coll
+        .flatMap(({ status }, i) => statusStyle[status](coll[i], depth, formatDiff))
+        .join('\n')
+      return `{\n${lines}\n${bracketIndent(depth)}}`;
   };
 
   return formatDiff(tree);
