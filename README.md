@@ -7,10 +7,11 @@
 
 ### Installation and Usage:
 
-* $ git clone https://github.com/Pavelvl21/frontend-project-11.git
-* gendiff <filepath1> <filepath2>: show diff with default format
-* gendiff -f, --format [plain, json] <filepath1> <filepath2>: show diff with plain or json format
-* gendiff -h, --help: display help for command
+* $ git clone https://github.com/Pavelvl21/frontend-project-lvl2.git
+* $ make install
+* $ gendiff <filepath1> <filepath2>: show diff with default format
+* $ gendiff -f, --format [plain, json] <filepath1> <filepath2>: show diff with plain or json format
+* $ gendiff -h, --help: display help for command
 
 ### DEMO
 ---
