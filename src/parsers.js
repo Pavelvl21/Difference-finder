@@ -4,7 +4,7 @@ const parseData = (filepath, fileFormat) => {
   switch (fileFormat) {
     case '.yaml':
     case '.yml':
-      return yaml.safeLoad(filepath);
+      return yaml.load(filepath);
     case '.json':
       return JSON.parse(filepath);
     default:
